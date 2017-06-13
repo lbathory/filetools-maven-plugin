@@ -1,4 +1,4 @@
-package com.coolworx;
+package com.coolworx.mavenplugins;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -19,6 +19,7 @@ package com.coolworx;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -27,58 +28,43 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Goal which touches a timestamp file.
- *
- * @deprecated Don't use!
+ * <p>
+ * //* @deprecated Don't use!
  */
-@Mojo( name = "touch", defaultPhase = LifecyclePhase.PROCESS_SOURCES )
-public class MyMojo
-    extends AbstractMojo
-{
+@Mojo(name = "copy-files", defaultPhase = LifecyclePhase.PACKAGE)
+public class CopyFilesMojo
+        extends AbstractMojo {
     /**
      * Location of the file.
      */
-    @Parameter( defaultValue = "${project.build.directory}", property = "outputDir", required = true )
-    private File outputDirectory;
+    @Parameter
+    List<Copyjob> copyjobs;
+
+    Log log = getLog();
 
     public void execute()
-        throws MojoExecutionException
-    {
-        File f = outputDirectory;
-
-        if ( !f.exists() )
-        {
-            f.mkdirs();
-        }
-
-        File touch = new File( f, "touch.txt" );
-
-        FileWriter w = null;
-        try
-        {
-            w = new FileWriter( touch );
-
-            w.write( "touch.txt" );
-        }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Error creating file " + touch, e );
-        }
-        finally
-        {
-            if ( w != null )
+            throws MojoExecutionException {
+        log.info("Copying files");
+        if (copyjobs!=null && copyjobs.size()!=0)
+        {  log.info(copyjobs.size() + " copyjobs found");
+            for (Copyjob job : copyjobs)
             {
-                try
-                {
-                    w.close();
+                try {
+                    job.execute();
+                } catch (IOException e) {
+                    log.info(String.format("Copy FAILED: %s -> %s",job.getSource().getPath(),job.getTarget().getAbsolutePath()));
+
+                    throw new MojoExecutionException(e.getMessage());
                 }
-                catch ( IOException e )
-                {
-                    // ignore
-                }
+                log.info(String.format("Copied %s -> %s",job.getSource().getPath(),job.getTarget().getAbsolutePath()));
             }
+
+        }
+        else { log.info("No 'copyjobs' found");
         }
     }
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.coolworx.it</groupId>
+    <artifactId>copies-it</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <description>A simple IT verifying the basic use case.</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>@project.groupId@</groupId>
+                <artifactId>@project.artifactId@</artifactId>
+                <version>@project.version@</version>
+                <executions>
+                    <execution>
+                        <id>prepare</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>concat-files</goal>
+                        </goals>
+                        <configuration>
+                            <jobs>
+                                <job>
+                                    <sources>
+                                        <source>sample1.txt</source>
+                                        <source>sample2.txt</source>
+                                    </sources>
+                                    <targetFile>target/targetdir/cat.txt</targetFile>
+                                </job>
+                            </jobs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
