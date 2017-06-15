@@ -27,13 +27,13 @@
               <goal>copy-files</goal>
             </goals>
             <configuration>
-              <copyjobs>
-                  <copyjob>
+              <copies>
+                  <copy>
                       <source>pom.xml</source>
                       <targetDir>target/targetdir</targetDir>
                       <targetName>source.txt</targetName>
-                  </copyjob>
-              </copyjobs>
+                  </copy>
+              </copies>
             </configuration>
           </execution>
             <execution>
@@ -43,13 +43,13 @@
                     <goal>move-files</goal>
                 </goals>
                 <configuration>
-                    <movejobs>
-                        <movejob>
+                    <moves>
+                        <move>
                             <source>target/targetdir/source.txt</source>
                             <targetDir>target/targetdir</targetDir>
                             <targetName>renamed.txt</targetName>
-                        </movejob>
-                    </movejobs>
+                        </move>
+                    </moves>
                 </configuration>
             </execution>
         </executions>

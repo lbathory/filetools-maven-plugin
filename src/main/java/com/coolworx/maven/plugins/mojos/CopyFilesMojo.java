@@ -1,4 +1,4 @@
-package com.coolworx.mavenplugins;
+package com.coolworx.maven.plugins.mojos;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -23,10 +23,7 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.plugins.annotations.ResolutionScope;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -42,29 +39,29 @@ public class CopyFilesMojo
      * Location of the file.
      */
     @Parameter
-    List<Copyjob> copyjobs;
+    List<Copy> copies;
 
     Log log = getLog();
 
     public void execute()
             throws MojoExecutionException {
         log.info("Copying files");
-        if (copyjobs!=null && copyjobs.size()!=0)
-        {  log.info(copyjobs.size() + " copyjobs found");
-            for (Copyjob job : copyjobs)
+        if (copies !=null && copies.size()!=0)
+        {  log.info(copies.size() + " copies found");
+            for (Copy copy : copies)
             {
                 try {
-                    job.execute();
+                    copy.execute();
                 } catch (IOException e) {
-                    log.info(String.format("Copy FAILED: %s -> %s",job.getSource().getPath(),job.getTarget().getAbsolutePath()));
+                    log.info(String.format("Copy FAILED: %s -> %s",copy.getSource().getPath(),copy.getTarget().getAbsolutePath()));
 
                     throw new MojoExecutionException(e.getMessage());
                 }
-                log.info(String.format("Copied %s -> %s",job.getSource().getPath(),job.getTarget().getAbsolutePath()));
+                log.info(String.format("Copied %s -> %s",copy.getSource().getPath(),copy.getTarget().getAbsolutePath()));
             }
 
         }
-        else { log.info("No 'copyjobs' found");
+        else { log.info("No copies found");
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.coolworx.mavenplugins;
+package com.coolworx.maven.commons;
 
 import org.codehaus.plexus.util.FileUtils;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * Created by morti on 6/13/17.
  */
-public abstract class RelocateJob {
+public abstract class OneToOneJob {
 
     private File source;
     private File targetDir;

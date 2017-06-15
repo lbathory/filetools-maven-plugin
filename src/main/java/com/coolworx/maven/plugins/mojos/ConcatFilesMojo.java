@@ -1,4 +1,4 @@
-package com.coolworx.mavenplugins.mojos.concat;
+package com.coolworx.maven.plugins.mojos;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -16,7 +16,6 @@ package com.coolworx.mavenplugins.mojos.concat;
  * limitations under the License.
  */
 
-import com.coolworx.mavenplugins.Copyjob;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
@@ -39,29 +38,29 @@ public class ConcatFilesMojo
      * Location of the file.
      */
     @Parameter (required = true)
-    List<Job> jobs;
+    List<Cat> cats;
 
     Log log = getLog();
 
     public void execute()
             throws MojoExecutionException {
         log.info("Concatenating files");
-        if (jobs!=null && jobs.size()!=0)
-        {  log.info(jobs.size() + " jobs found");
-            for (Job job : jobs)
+        if (cats !=null && cats.size()!=0)
+        {  log.info(cats.size() + " checksum found");
+            for (Cat cat : cats)
             {
                 try {
-                    job.execute();
+                    cat.execute();
                 } catch (IOException e) {
 
 
                     throw new MojoExecutionException(e.getMessage());
                 }
-                log.info(String.format("%d files concatenated to %s",job.getSources().size(),job.getTargetFile().getAbsolutePath()));
+//                log.info(String.format("%d files concatenated to %s", cat.getFiles().scanFiles().size(), cat.getTargetFile().getAbsolutePath()));
             }
 
         }
-        else { log.info("No jobs found");
+        else { log.info("No checksum found");
         }
     }
 }

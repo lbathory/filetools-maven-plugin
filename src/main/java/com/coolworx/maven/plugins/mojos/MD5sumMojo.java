@@ -1,4 +1,4 @@
-package com.coolworx.mavenplugins;
+package com.coolworx.maven.plugins.mojos;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -24,42 +24,34 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Goal which touches a timestamp file.
  * <p>
  * //* @deprecated Don't use!
  */
-@Mojo(name = "move-files", defaultPhase = LifecyclePhase.PACKAGE)
-public class MoveFilesMojo
+@Mojo(name = "checksum-files", defaultPhase = LifecyclePhase.PACKAGE)
+public class MD5sumMojo
         extends AbstractMojo {
     /**
      * Location of the file.
      */
-    @Parameter
-    List<Movejob> movejobs;
+    @Parameter (required = true)
+    Checksum checksum;
 
     Log log = getLog();
 
     public void execute()
             throws MojoExecutionException {
-        log.info("Moving files: ");
+        log.info("Concatenating files");
 
-
-        if (movejobs != null && movejobs.size() != 0) {
-            log.info(movejobs.size() + " movejobs found");
-            for (Movejob job : movejobs) {
                 try {
-                    job.execute();
+                    checksum.execute();
                 } catch (IOException e) {
-                    log.error(String.format("Move FAILED: %s -> %s", job.getSource().getPath(), job.getTargetDir().getPath()));
+
+
                     throw new MojoExecutionException(e.getMessage());
                 }
-                log.info(String.format("Moved %s -> %s", job.getSource().getPath(), job.getTargetDir().getPath()));
-            }
-        } else {
-            log.info("No 'movejobs' found");
-        }
-    }
+//                log.info(String.format("%d files concatenated to %s", cat.getFiles().scanFiles().size(), cat.getTargetFile().getAbsolutePath()));
+           }
 }

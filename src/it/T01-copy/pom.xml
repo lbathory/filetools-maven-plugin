@@ -27,17 +27,17 @@
               <goal>copy-files</goal>
             </goals>
             <configuration>
-              <copyjobs>
-                  <copyjob>
+              <copies>
+                  <copy>
                       <source>pom.xml</source>
                       <targetDir>target/targetdir</targetDir>
                       <targetName>result.txt</targetName>
-                  </copyjob>
-                  <copyjob>
+                  </copy>
+                  <copy>
                       <source>pom.xml</source>
                       <targetDir>target/targetdir</targetDir>
-                  </copyjob>
-              </copyjobs>
+                  </copy>
+              </copies>
             </configuration>
           </execution>
         </executions>

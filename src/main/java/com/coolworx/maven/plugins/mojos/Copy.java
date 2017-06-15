@@ -1,5 +1,6 @@
-package com.coolworx.mavenplugins;
+package com.coolworx.maven.plugins.mojos;
 
+import com.coolworx.maven.commons.OneToOneJob;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.IOException;
@@ -7,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by morti on 6/13/17.
  */
-public class Copyjob extends RelocateJob {
+public class Copy extends OneToOneJob {
 
     @Override
     protected void doJob() throws IOException {

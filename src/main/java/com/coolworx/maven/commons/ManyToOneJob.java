@@ -1,29 +1,32 @@
-package com.coolworx.mavenplugins.mojos.concat;
+package com.coolworx.maven.commons;
 
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.FileUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by morti on 6/13/17.
+ * Created by morti on 6/14/17.
  */
-public class Job {
-    private byte[] buffer = new byte[4096];
-
-    @Parameter(required = true)
+public abstract class ManyToOneJob {
+   /* @Parameter
     private List<File> sources;
+    */
+    @Parameter
+    private Fileset files;
 
     @Parameter(required = true)
     private File targetFile;
 
-    public List<File> getSources() {
-        return sources;
+    public Fileset getFiles() {
+        return files;
     }
 
-    public void setSources(List<File> sources) {
-        this.sources = sources;
+    public void setFiles(Fileset files) {
+        this.files = files;
     }
 
     public File getTargetFile() {
@@ -40,7 +43,7 @@ public class Job {
     }
 
 
-    private void checkTargetDir() throws IOException {
+    protected void checkTargetDir() throws IOException {
         File tDir = targetFile.getParentFile();
         if (!tDir.exists())
             FileUtils.forceMkdir(tDir);
@@ -50,16 +53,8 @@ public class Job {
 
     public void execute() throws IOException {
         checkTargetDir();
-        FileOutputStream fos = new FileOutputStream(getTargetFile());
-        int readBytes = 0;
-        for (File source : sources) {
-            FileInputStream in = new FileInputStream(source);
-
-            while ((readBytes = in.read(buffer)) != -1) {
-                fos.write(buffer, 0, readBytes);
-            }
-            in.close();
-        }
-        fos.close();
+        doJob();
     }
+
+    protected abstract void doJob() throws IOException;
 }
