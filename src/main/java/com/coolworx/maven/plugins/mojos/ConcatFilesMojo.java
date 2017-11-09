@@ -44,11 +44,11 @@ public class ConcatFilesMojo
 
     public void execute()
             throws MojoExecutionException {
-        log.info("Concatenating files");
+
         if (cats !=null && cats.size()!=0)
-        {  log.info(cats.size() + " checksum found");
+        {
             for (Cat cat : cats)
-            {
+            {   cat.setLog(log);
                 try {
                     cat.execute();
                 } catch (IOException e) {

@@ -1,5 +1,6 @@
 package com.coolworx.maven.commons;
 
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -20,6 +21,7 @@ public abstract class ManyToOneJob {
 
     @Parameter(required = true)
     private File targetFile;
+    protected Log log;
 
     public Fileset getFiles() {
         return files;
@@ -57,4 +59,8 @@ public abstract class ManyToOneJob {
     }
 
     protected abstract void doJob() throws IOException;
+
+    public void setLog(Log log) {
+        this.log = log;
+    }
 }

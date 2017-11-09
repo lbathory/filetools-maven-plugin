@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by morti on 6/13/17.
@@ -20,7 +21,10 @@ public class Cat extends ManyToOneJob {
     protected void doJob() throws IOException {
         FileOutputStream fos = new FileOutputStream(getTargetFile());
         int readBytes = 0;
+        List<File> files = getFiles().scanFiles();
+        log.info("Concatenating "+files.size() + " files");
         for (File source : getFiles().scanFiles()) {
+            log.info("Concat "+source.getPath());
             FileInputStream in = new FileInputStream(source);
 
             while ((readBytes = in.read(buffer)) != -1) {
@@ -29,5 +33,6 @@ public class Cat extends ManyToOneJob {
             in.close();
         }
         fos.close();
+        log.info("Result is in "+getTargetFile().getPath());
     }
 }
